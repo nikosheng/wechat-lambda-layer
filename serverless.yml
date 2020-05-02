@@ -1,0 +1,35 @@
+service: wechat-layer-dev
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: dev
+  region: us-east-1
+
+layers:
+  Wechat:
+    path: layer
+    allowedAccounts:
+      - '*' # ALL accounts
+    compatibleRuntimes:
+      - python3.6
+      - python3.7
+      - python3.8
+
+package:
+  exclude:
+    - venv/**
+    - handler.py
+    - node_modules/**
+    - package.json
+    - package-lock.json
+    - requirements.txt
+
+resources:
+  Outputs:
+    WechatLayerExport:
+        Value:
+          Ref: WechatLambdaLayer
+        Export:
+          Name: WechatLambdaLayer
+
